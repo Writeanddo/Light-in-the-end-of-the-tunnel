@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         instance = this;
-        offsetPlayable = 1;
+        offsetPlayable = 2;
         StartCoroutine(LevelLoadingInitial(1));
     }
 
@@ -40,7 +40,8 @@ public class LevelManager : MonoBehaviour
         }
         SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
 
-        Player.GetInstance().GetPlayerBody();
+        if (Player.GetInstance() != null)
+            Player.GetInstance().GetPlayerBody();
 
         curLevel = SceneManager.GetActiveScene().buildIndex - offsetPlayable;
         totalLevels = SceneManager.sceneCountInBuildSettings - offsetPlayable;
@@ -77,7 +78,8 @@ public class LevelManager : MonoBehaviour
         }
         SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
 
-        Player.GetInstance().GetPlayerBody();
+        if (Player.GetInstance() != null)
+            Player.GetInstance().GetPlayerBody();
     }
 
     public bool hasNextLevel()
