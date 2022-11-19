@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - Light
+  - Loot
+  - Drop
+  - Switch
+  - Trigger
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Background
+  - Water
+  - UI
+  - Player
+  - Ground
+  - Loot
+  - Interactables
+  - Foreground
+  - PseudoGround
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3556292435
+    locked: 0
+  - name: Ground
+    uniqueID: 372894949
+    locked: 0
+  - name: Foreground
+    uniqueID: 2855383005
+    locked: 0
+  - name: Interactables
+    uniqueID: 2791171523
+    locked: 0
+  - name: Player
+    uniqueID: 376496251
+    locked: 0
