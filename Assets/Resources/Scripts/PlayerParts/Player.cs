@@ -96,20 +96,23 @@ public class Player : MonoBehaviour
     {
         if(_charController != null)
         {
-            _charController.Move(movement, false, isJumping);
+            _charController.Move(movement, isJumping);
             isJumping = false;
         }
     }
 
     void UseAction()
     {
-        if (_looter.isAtSwitch)
+        if (_charController.isGrounded())
         {
-            LoadNextLevel();
-        }
-        else
-        {
-            _looter.LootOrDrop();
+            if (_looter.isAtSwitch)
+            {
+                LoadNextLevel();
+            }
+            else
+            {
+                _looter.LootOrDrop();
+            }
         }
     }
 

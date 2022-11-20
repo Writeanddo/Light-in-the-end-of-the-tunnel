@@ -360,6 +360,8 @@ MonoBehaviour:
   curLevel: 0
   totalLevels: 0
   offsetPlayable: 0
+  isFinished: 0
+  fade: {fileID: 0}
 --- !u!4 &753374628
 Transform:
   m_ObjectHideFlags: 0
@@ -368,7 +370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 753374626}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.1, y: -0.02, z: 0}
   m_LocalScale: {x: 40, y: 20, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

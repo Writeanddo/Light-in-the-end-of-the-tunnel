@@ -69,18 +69,30 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(LevelLoading(newBuild, currentBuild));
     }
 
-    public void LoadLevel(int levelNum)
+    public void LoadLevel(int levelNum, bool noFade)
     {
         int currentBuild = curLevel + offsetPlayable;
         int newBuild = levelNum + offsetPlayable;
-        StartCoroutine(LevelLoading(newBuild, currentBuild));
+        StartCoroutine(LevelLoading(newBuild, currentBuild, noFade));
         curLevel = levelNum;
     }
 
-    IEnumerator LevelLoading(int loadIdx, int unloadIdx)
+    IEnumerator LevelLoading(int loadIdx, int unloadIdx, bool noFade=false)
     {
-        fade.color = Color.black;
+        if (unloadIdx != 1)
+        {
+            float overloadTimer = 0.5f;
+            LightController[] lights = FindObjectsOfType<LightController>();
+            foreach (LightController lc in lights)
+            {
+                lc.Overload(overloadTimer);
+            }
+            yield return new WaitForSeconds(overloadTimer * 2);
+        }
+        if (!noFade)
+            fade.color = Color.black;
         yield return new WaitForSeconds(1.5f);
+
         SceneManager.UnloadSceneAsync(unloadIdx);
         SceneManager.LoadScene(loadIdx, LoadSceneMode.Additive);
         while (!SceneManager.GetSceneAt(1).isLoaded)
@@ -88,21 +100,22 @@ public class LevelManager : MonoBehaviour
             yield return null;
         }
 
-        fade.color = Vector4.zero;
-        SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
+        if (!noFade)
+            fade.color = Vector4.zero;
 
+        SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
         if (Player.GetInstance() != null)
             Player.GetInstance().GetPlayerBody();
     }
 
     public bool hasNextLevel()
     {
-        return curLevel + offsetPlayable + 1 <= totalLevels;
+        return curLevel + 1 <= totalLevels;
     }
 
     public void LoadEning()
     {
-        LoadLevel(-1);
+        LoadLevel(-1, true);
         isFinished = true;
         Debug.Log("FIN!");
     }

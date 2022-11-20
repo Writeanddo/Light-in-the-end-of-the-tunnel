@@ -19,6 +19,7 @@ public class LightController : MonoBehaviour
         lightCollider = GetComponent<Collider2D>();
         lightSource = GetComponent<UnityEngine.Rendering.Universal.Light2D>();
         lightSource.intensity = startsOn ? 1 : 0;
+        lightCollider.enabled = startsOn;
     }
 
     public void Update()
@@ -57,5 +58,23 @@ public class LightController : MonoBehaviour
             lightCollider.enabled = lightSource.intensity > maxLuminosity / 2;
             yield return null;
         }
+    }
+
+    public void Overload(float overloadTimer)
+    {
+        StartCoroutine(OverloadRoutine(overloadTimer));
+    }
+    IEnumerator OverloadRoutine(float overloadTimer)
+    {
+        float currentIntensity = lightSource.intensity;
+        float overloadIntensity = 5f;
+        float timer = 0;
+        while (timer < overloadTimer)
+        {
+            timer += Time.deltaTime;
+            lightSource.intensity = Mathf.Lerp(currentIntensity, overloadIntensity, timer / overloadTimer);
+            yield return null;
+        }
+        lightSource.intensity = 0;
     }
 }

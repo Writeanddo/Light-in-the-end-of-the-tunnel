@@ -84,16 +84,20 @@ public class Looter : MonoBehaviour
         if ((collision.CompareTag("Loot") && !isHolding) || (collision.CompareTag("Drop") && isHolding))
         {
             interactableTrigger = collision.transform;
-            helpText.SetActive(true);
+            ActivateHelpText();
         }
-        if (collision.CompareTag("Switch"))
+        else if (collision.CompareTag("Switch"))
         {
             isAtSwitch = true;
-            helpText.SetActive(true);
+            ActivateHelpText();
         }
-        if (collision.CompareTag("Trigger"))
+        else if (collision.CompareTag("Trigger"))
         {
-            collision.GetComponent<Trigger>().Execute();
+            Trigger[] triggers = collision.GetComponents<Trigger>();
+            foreach(Trigger t in triggers)
+            {
+                t.Execute();
+            }
         }
     }
 
@@ -109,5 +113,11 @@ public class Looter : MonoBehaviour
             isAtSwitch = false;
             helpText.SetActive(false);
         }
+    }
+    private void ActivateHelpText()
+    {
+        CharacterController2D cc = GetComponent<CharacterController2D>();
+        if (cc != null)
+            helpText.SetActive(cc.isGrounded());
     }
 }
