@@ -10,6 +10,12 @@ public class LevelManager : MonoBehaviour
     public int totalLevels;
     [HideInInspector]
     public int offsetPlayable;
+    [HideInInspector]
+    public bool isFinished = false;
+
+    [SerializeField]
+    SpriteRenderer fade;
+
     public static LevelManager GetInstance()
     {
         return instance;
@@ -24,7 +30,11 @@ public class LevelManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         instance = this;
+        
         offsetPlayable = 2;
+        fade = GetComponent<SpriteRenderer>();
+        fade.color = Vector4.zero;
+
         StartCoroutine(LevelLoadingInitial(1));
     }
 
@@ -69,6 +79,7 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator LevelLoading(int loadIdx, int unloadIdx)
     {
+        fade.color = Color.black;
         yield return new WaitForSeconds(1.5f);
         SceneManager.UnloadSceneAsync(unloadIdx);
         SceneManager.LoadScene(loadIdx, LoadSceneMode.Additive);
@@ -76,6 +87,8 @@ public class LevelManager : MonoBehaviour
         {
             yield return null;
         }
+
+        fade.color = Vector4.zero;
         SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
 
         if (Player.GetInstance() != null)
@@ -89,6 +102,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadEning()
     {
+        LoadLevel(-1);
+        isFinished = true;
         Debug.Log("FIN!");
     }
 }

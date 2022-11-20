@@ -10,10 +10,12 @@ public class Player : MonoBehaviour
     [Header("Essentials")]
     static Player instance;
     InputControls _controls;
+    Camera mainCamera;
+
+    [Header("Plaayer Body")]
     [ShowInInspector]
     CharacterController2D _charController;
     Looter _looter;
-    Camera mainCamera;
 
     [Header("Inner Variables")]
     float movement;
@@ -47,6 +49,11 @@ public class Player : MonoBehaviour
         _controls.Controls.Use.performed += ctx => UseAction();
 
         _controls.Controls.Look.performed += ctx => LookAt(ctx.ReadValue<Vector2>());
+
+        if(_charController == null)
+        {
+            _controls.Controls.Disable();
+        }
     }
 
     void Start()
@@ -74,6 +81,7 @@ public class Player : MonoBehaviour
         {
             _charController = players[0].GetComponent<CharacterController2D>();
             _looter = players[0].GetComponent<Looter>();
+            _controls.Controls.Enable();
         }
     }
 
@@ -81,6 +89,7 @@ public class Player : MonoBehaviour
     {
         _charController = null;
         _looter = null;
+        _controls.Controls.Disable();
     }
 
     void Move()

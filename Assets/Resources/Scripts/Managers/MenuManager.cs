@@ -12,14 +12,18 @@ public class MenuManager : MonoBehaviour
     [SerializeField] LightController menu1;
     [SerializeField] LightController menu2;
     [SerializeField] LightController credit;
+    [SerializeField] LightController endingLight;
+    [SerializeField] GameObject endingText;
     public bool isCreditOn;
     private bool isFlickering;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         isCreditOn = false;
         isFlickering = false;
+        endingLight.isOn = LevelManager.GetInstance().isFinished;
+        endingText.SetActive(LevelManager.GetInstance().isFinished);
     }
 
     // Update is called once per frame
@@ -74,7 +78,7 @@ public class MenuManager : MonoBehaviour
         flicker.isOn = true;
         yield return new WaitForSeconds(0.4f);
         flicker.isOn = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
 
         isFlickering = false;
     }
