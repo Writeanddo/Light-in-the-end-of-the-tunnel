@@ -488,6 +488,15 @@ MonoBehaviour:
     unpausable: 0
     mixerGroup: {fileID: -392007233756552794, guid: 572c24386b52dad4599a1c32a39639a5, type: 2}
     source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 826a3ae80a1fcec4d818c98e5a2ddf1b, type: 3}
+    name: step
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    playOnAwake: 0
+    unpausable: 0
+    mixerGroup: {fileID: -392007233756552794, guid: 572c24386b52dad4599a1c32a39639a5, type: 2}
+    source: {fileID: 0}
 --- !u!4 &851530194
 Transform:
   m_ObjectHideFlags: 0

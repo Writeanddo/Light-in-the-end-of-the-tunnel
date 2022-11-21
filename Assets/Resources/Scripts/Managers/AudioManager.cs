@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Sirenix.OdinInspector;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    [ListDrawerSettings]
     public c_AudioClip[] audioClips;
 
     private static AudioManager instance;
@@ -63,17 +65,20 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound " + name + " not found!");
             return;
         }
-        if ((!ac.source.isPlaying) && (ac.source.time != 0))
+        if (!ac.source.isPlaying)
         {
-            ac.source.UnPause();
-        }
-        else
-        {
-            ac.source.Play();
-        }
-        if (fading)
-        {
-            StopCoroutine(FadeSound(ac, 2.5f));
+            if ((!ac.source.isPlaying) && (ac.source.time != 0))
+            {
+                ac.source.UnPause();
+            }
+            else
+            {
+                ac.source.Play();
+            }
+            if (fading)
+            {
+                StopCoroutine(FadeSound(ac, 2.5f));
+            }
         }
     }
 
@@ -87,18 +92,21 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound " + name + " not found!");
             return;
         }
-        if ((!ac.source.isPlaying) && (ac.source.time != 0))
+        if (!ac.source.isPlaying)
         {
-            ac.source.UnPause();
-        }
-        else
-        {
-            ac.source.pitch = UnityEngine.Random.Range(randomPitchStart, randomPitchEnd);
-            ac.source.Play();
-        }
-        if (fading != 0f)
-        {
-            StopCoroutine(FadeSound(ac, fading));
+            if ((!ac.source.isPlaying) && (ac.source.time != 0))
+            {
+                ac.source.UnPause();
+            }
+            else
+            {
+                ac.source.pitch = UnityEngine.Random.Range(randomPitchStart, randomPitchEnd);
+                ac.source.Play();
+            }
+            if (fading != 0f)
+            {
+                StopCoroutine(FadeSound(ac, fading));
+            }
         }
     }
 

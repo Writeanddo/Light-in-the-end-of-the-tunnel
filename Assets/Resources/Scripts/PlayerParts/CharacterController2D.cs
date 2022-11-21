@@ -58,6 +58,14 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Move(float move, bool jump)
 	{
+		if(m_Rigidbody2D.velocity.x != 0f && m_Grounded)
+        {
+			AudioManager.GetInstance().PlayClip("step");
+		}
+        else
+        {
+			AudioManager.GetInstance().StopClip("step");
+		}
 		//only control the player if grounded or airControl is turned on
 		if (m_Grounded || m_AirControl)
 		{
@@ -91,7 +99,7 @@ public class CharacterController2D : MonoBehaviour
 		}
 		if (m_Skin_Tilt != null)
 		{
-			Tilt(move, m_Grounded);
+			Tilt(m_Rigidbody2D.velocity.x, m_Grounded);
 		}
 	}
 
@@ -108,11 +116,11 @@ public class CharacterController2D : MonoBehaviour
 	{
         if (isGrounded)
         {
-			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 20 * -move);
+			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 20 * -1 * Mathf.Sign(move) * Mathf.Min(Mathf.Abs(move), 1f));
 		}
 		else
 		{
-			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 10 * move);
+			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 10 * Mathf.Sign(move) * Mathf.Min(Mathf.Abs(move), 1f));
 		}
 	}
 
