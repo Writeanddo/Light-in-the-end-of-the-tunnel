@@ -36,6 +36,7 @@ public class Looter : MonoBehaviour
         {
             if(!isHolding && interactableTrigger.CompareTag("Loot"))
             {
+                AudioManager.GetInstance().PlayClip("loot");
                 DropPoint dp = interactableTrigger.parent.parent.GetComponent<DropPoint>();
                 if (dp != null)
                 {
@@ -52,6 +53,7 @@ public class Looter : MonoBehaviour
             }
             if(isHolding && interactableTrigger.CompareTag("Drop"))
             {
+                AudioManager.GetInstance().PlayClip("drop");
                 Quaternion lootRotation = lootedLight.rotation;
                 lootedLight.SetParent(interactableTrigger.parent);
                 // lootedLight.SetLocalPositionAndRotation(Vector3.zero, lootRotation);

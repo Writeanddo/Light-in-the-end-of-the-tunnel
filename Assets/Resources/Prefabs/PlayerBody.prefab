@@ -241,6 +241,9 @@ MonoBehaviour:
   m_CeilingCheck: {fileID: 85910970175119607}
   m_Skin_Flip: {fileID: 0}
   m_Skin_Tilt: {fileID: 843804155404537910}
+  tiltAngleRun: 15
+  tiltAngleAcc: 4
+  tiltAngleJump: -10
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []

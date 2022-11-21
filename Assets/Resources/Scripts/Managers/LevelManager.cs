@@ -82,24 +82,23 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator LevelLoading(int loadIdx, int unloadIdx, bool finalFadeFlg=false)
     {
-        if (unloadIdx != 1)
-        {
-            float overloadTimer = 0.5f;
-            LightController[] lights = FindObjectsOfType<LightController>();
-            AudioManager.GetInstance().PlayClip("lights_overload");
-            foreach (LightController lc in lights)
-            {
-                lc.Overload(overloadTimer);
-            }
-        }
-
         if (finalFadeFlg)
         {
             finalFade.color = Color.white;
         }
         else
         {
-            yield return new WaitForSeconds(1f);
+            float overloadTimer = 0.5f;
+            if (unloadIdx != 1)
+            {
+                LightController[] lights = FindObjectsOfType<LightController>();
+                AudioManager.GetInstance().PlayClip("lights_overload");
+                foreach (LightController lc in lights)
+                {
+                    lc.Overload(overloadTimer);
+                }
+            }
+            yield return new WaitForSeconds(2f * overloadTimer);
             fade.color = Color.black;
         }
 
@@ -131,7 +130,7 @@ public class LevelManager : MonoBehaviour
         return curLevel + 1 < totalLevels;
     }
 
-    public void LoadEning()
+    public void LoadEnding()
     {
         LoadLevel(-1, true);
         isFinished = true;

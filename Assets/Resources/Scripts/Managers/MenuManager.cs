@@ -14,8 +14,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] LightController credit;
     [SerializeField] LightController endingLight;
     [SerializeField] GameObject endingText;
-    public bool isCreditOn;
+    private bool isCreditOn;
     private bool isFlickering;
+    private GameObject lastSelected;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +30,13 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        menu1.isOn = button1.gameObject == eventSystem.currentSelectedGameObject;
-        menu2.isOn = button2.gameObject == eventSystem.currentSelectedGameObject;
+        if (lastSelected != eventSystem.currentSelectedGameObject)
+        {
+            AudioManager.GetInstance().PlayClipForce("switch");
+            lastSelected = eventSystem.currentSelectedGameObject;
+        }
+        menu1.isOn = button1.gameObject == lastSelected;
+        menu2.isOn = button2.gameObject == lastSelected;
         credit.isOn = isCreditOn;
 
         if (!isFlickering)
@@ -42,6 +48,7 @@ public class MenuManager : MonoBehaviour
 
     public void CreditSwitch()
     {
+        AudioManager.GetInstance().PlayClipForce("switch");
         isCreditOn = !isCreditOn;
     }
 
@@ -54,16 +61,18 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            lm.LoadEning();
+            lm.LoadEnding();
         }
     }
 
     IEnumerator Flicker()
     {
+        AudioManager.GetInstance().PlayClipForce("flick");
+
         flicker.isOn = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         flicker.isOn = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
 
         flicker.isOn = true;
         yield return new WaitForSeconds(0.2f);

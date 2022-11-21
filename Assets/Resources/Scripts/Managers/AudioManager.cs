@@ -195,4 +195,10 @@ public class AudioManager : MonoBehaviour
             ac.source.Stop();
         }
     }
+
+    public void PlayClipForce(string name)
+    {
+        StopClip(name);
+        PlayClip(name);
+    }
 }

@@ -10,8 +10,6 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
-	[SerializeField] private Transform m_Skin_Flip;				// Player skin
-	[SerializeField] private Transform m_Skin_Tilt;				// Player skin
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
@@ -19,6 +17,13 @@ public class CharacterController2D : MonoBehaviour
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
+
+	[Header("Animation")]
+	[SerializeField] private Transform m_Skin_Flip;				// Player skin
+	[SerializeField] private Transform m_Skin_Tilt;             // Player skin
+	[SerializeField] private float tiltAngleRun;
+	[SerializeField] private float tiltAngleAcc;
+	[SerializeField] private float tiltAngleJump;
 
 	[Header("Events")]
 	[Space]
@@ -73,22 +78,6 @@ public class CharacterController2D : MonoBehaviour
 			Vector3 targetVelocity = new Vector2(move * m_MovementSpeed, m_Rigidbody2D.velocity.y);
 			// And then smoothing it out and applying it to the character
 			m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-
-			if (m_Skin_Flip != null)
-			{
-				// If the input is moving the player right and the player is facing left...
-				if (move > 0 && !m_FacingRight)
-				{
-					// ... flip the player.
-					Flip();
-				}
-				// Otherwise if the input is moving the player left and the player is facing right...
-				else if (move < 0 && m_FacingRight)
-				{
-					// ... flip the player.
-					Flip();
-				}
-			}
 		}
 		// If the player should jump...
 		if (m_Grounded && jump)
@@ -97,9 +86,32 @@ public class CharacterController2D : MonoBehaviour
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
+
+		Animate(move);
+	}
+
+
+	private void Animate(float move = 0f)
+	{
+		if ((m_Grounded || m_AirControl) && m_Skin_Flip != null)
+		{
+			// If the input is moving the player right and the player is facing left...
+			if (move > 0 && !m_FacingRight)
+			{
+				// ... flip the player.
+				Flip();
+			}
+			// Otherwise if the input is moving the player left and the player is facing right...
+			else if (move < 0 && m_FacingRight)
+			{
+				// ... flip the player.
+				Flip();
+			}
+		}
+
 		if (m_Skin_Tilt != null)
 		{
-			Tilt(m_Rigidbody2D.velocity.x, m_Grounded);
+			Tilt(m_Rigidbody2D.velocity, m_Grounded);
 		}
 	}
 
@@ -112,15 +124,15 @@ public class CharacterController2D : MonoBehaviour
 		m_Skin_Flip.transform.Rotate(0, 180, 0);
 	}
 
-	private void Tilt(float move, bool isGrounded) 
+	private void Tilt(Vector2 move, bool isGrounded)
 	{
-        if (isGrounded)
+		if (isGrounded)
         {
-			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 20 * -1 * Mathf.Sign(move) * Mathf.Min(Mathf.Abs(move), 1f));
+			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, -tiltAngleRun * Mathf.Sign(move.x) * Mathf.Pow(Mathf.Min(Mathf.Abs(move.x), 1f), tiltAngleAcc));
 		}
 		else
 		{
-			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 10 * Mathf.Sign(move) * Mathf.Min(Mathf.Abs(move), 1f));
+			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, -tiltAngleJump * Mathf.Sign(move.x) * Mathf.Sign(move.y) * Mathf.Min(Mathf.Abs(move.x), 1f) * Mathf.Min(Mathf.Abs(move.y), 1f));
 		}
 	}
 

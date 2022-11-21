@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
 
     private void RemovePlayerBody()
     {
+        AudioManager.GetInstance().StopClip("step");
         _charController = null;
         _looter = null;
         _controls.Controls.Disable();
@@ -125,7 +126,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void LoadNextLevel()
+    public void LoadNextLevel()
     {
         AudioManager.GetInstance().PlayClip("switch");
         RemovePlayerBody();
@@ -141,7 +142,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            lm.LoadEning();
+            lm.LoadEnding();
         }
     }
 
