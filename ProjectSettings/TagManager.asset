@@ -10,6 +10,7 @@ TagManager:
   - Drop
   - Switch
   - Trigger
+  - UI
   layers:
   - Default
   - TransparentFX

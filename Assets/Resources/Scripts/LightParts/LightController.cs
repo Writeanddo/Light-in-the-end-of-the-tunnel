@@ -75,6 +75,7 @@ public class LightController : MonoBehaviour
             lightSource.intensity = Mathf.Lerp(currentIntensity, overloadIntensity, timer / overloadTimer);
             yield return null;
         }
+        AudioManager.GetInstance().PlayClip("lights_out");
         lightSource.intensity = 0;
     }
 }

@@ -15,6 +15,8 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     SpriteRenderer fade;
+    [SerializeField]
+    SpriteRenderer finalFade;
 
     public static LevelManager GetInstance()
     {
@@ -34,6 +36,7 @@ public class LevelManager : MonoBehaviour
         offsetPlayable = 2;
         fade = GetComponent<SpriteRenderer>();
         fade.color = Vector4.zero;
+        finalFade.color = Vector4.zero;
 
         StartCoroutine(LevelLoadingInitial(1));
     }
@@ -69,28 +72,37 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(LevelLoading(newBuild, currentBuild));
     }
 
-    public void LoadLevel(int levelNum, bool noFade)
+    public void LoadLevel(int levelNum, bool finalFadeFlg)
     {
         int currentBuild = curLevel + offsetPlayable;
         int newBuild = levelNum + offsetPlayable;
-        StartCoroutine(LevelLoading(newBuild, currentBuild, noFade));
+        StartCoroutine(LevelLoading(newBuild, currentBuild, finalFadeFlg));
         curLevel = levelNum;
     }
 
-    IEnumerator LevelLoading(int loadIdx, int unloadIdx, bool noFade=false)
+    IEnumerator LevelLoading(int loadIdx, int unloadIdx, bool finalFadeFlg=false)
     {
         if (unloadIdx != 1)
         {
             float overloadTimer = 0.5f;
             LightController[] lights = FindObjectsOfType<LightController>();
+            AudioManager.GetInstance().PlayClip("lights_overload");
             foreach (LightController lc in lights)
             {
                 lc.Overload(overloadTimer);
             }
-            yield return new WaitForSeconds(overloadTimer * 2);
         }
-        if (!noFade)
+
+        if (finalFadeFlg)
+        {
+            finalFade.color = Color.white;
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
             fade.color = Color.black;
+        }
+
         yield return new WaitForSeconds(1.5f);
 
         SceneManager.UnloadSceneAsync(unloadIdx);
@@ -100,8 +112,14 @@ public class LevelManager : MonoBehaviour
             yield return null;
         }
 
-        if (!noFade)
+        if (finalFadeFlg)
+        {
+            finalFade.color = Vector4.zero;
+        }
+        else
+        {
             fade.color = Vector4.zero;
+        }
 
         SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
         if (Player.GetInstance() != null)
@@ -110,7 +128,7 @@ public class LevelManager : MonoBehaviour
 
     public bool hasNextLevel()
     {
-        return curLevel + 1 <= totalLevels;
+        return curLevel + 1 < totalLevels;
     }
 
     public void LoadEning()

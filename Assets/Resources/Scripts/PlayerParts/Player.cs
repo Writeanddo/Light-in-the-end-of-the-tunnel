@@ -66,10 +66,7 @@ public class Player : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if(movement != 0 || isJumping)
-        {
-            Move();
-        }
+        Move();
     }
 
     public void GetPlayerBody()
@@ -130,8 +127,14 @@ public class Player : MonoBehaviour
 
     void LoadNextLevel()
     {
+        AudioManager.GetInstance().PlayClip("switch");
         RemovePlayerBody();
         LevelManager lm = LevelManager.GetInstance();
+        GameObject canvas = GameObject.FindGameObjectWithTag("UI");
+        if (canvas != null)
+        {
+            canvas.SetActive(false);
+        }
         if (lm.hasNextLevel())
         {
             lm.LoadNextLevel();

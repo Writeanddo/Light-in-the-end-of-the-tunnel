@@ -239,7 +239,8 @@ MonoBehaviour:
     m_Bits: 2176
   m_GroundCheck: {fileID: 1668111469}
   m_CeilingCheck: {fileID: 85910970175119607}
-  m_Skin: {fileID: 843804155404537910}
+  m_Skin_Flip: {fileID: 0}
+  m_Skin_Tilt: {fileID: 843804155404537910}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []

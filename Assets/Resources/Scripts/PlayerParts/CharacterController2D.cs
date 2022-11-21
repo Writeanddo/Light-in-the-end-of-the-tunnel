@@ -10,7 +10,8 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
-	[SerializeField] private Transform m_Skin;				// Player skin
+	[SerializeField] private Transform m_Skin_Flip;				// Player skin
+	[SerializeField] private Transform m_Skin_Tilt;				// Player skin
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
@@ -65,17 +66,20 @@ public class CharacterController2D : MonoBehaviour
 			// And then smoothing it out and applying it to the character
 			m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
-			// If the input is moving the player right and the player is facing left...
-			if (move > 0 && !m_FacingRight)
+			if (m_Skin_Flip != null)
 			{
-				// ... flip the player.
-				Flip();
-			}
-			// Otherwise if the input is moving the player left and the player is facing right...
-			else if (move < 0 && m_FacingRight)
-			{
-				// ... flip the player.
-				Flip();
+				// If the input is moving the player right and the player is facing left...
+				if (move > 0 && !m_FacingRight)
+				{
+					// ... flip the player.
+					Flip();
+				}
+				// Otherwise if the input is moving the player left and the player is facing right...
+				else if (move < 0 && m_FacingRight)
+				{
+					// ... flip the player.
+					Flip();
+				}
 			}
 		}
 		// If the player should jump...
@@ -85,6 +89,10 @@ public class CharacterController2D : MonoBehaviour
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
+		if (m_Skin_Tilt != null)
+		{
+			Tilt(move, m_Grounded);
+		}
 	}
 
 
@@ -93,7 +101,19 @@ public class CharacterController2D : MonoBehaviour
 		// Switch the way the player is labelled as facing.
 		m_FacingRight = !m_FacingRight;
 
-		m_Skin.transform.Rotate(0, 180, 0);
+		m_Skin_Flip.transform.Rotate(0, 180, 0);
+	}
+
+	private void Tilt(float move, bool isGrounded) 
+	{
+        if (isGrounded)
+        {
+			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 20 * -move);
+		}
+		else
+		{
+			m_Skin_Tilt.transform.localEulerAngles = new Vector3(0, 0, 10 * move);
+		}
 	}
 
 	public bool isGrounded() => m_Grounded;
