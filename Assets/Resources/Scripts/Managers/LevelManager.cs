@@ -84,6 +84,7 @@ public class LevelManager : MonoBehaviour
     {
         if (finalFadeFlg)
         {
+            yield return new WaitForSeconds(3f);
             finalFade.color = Color.white;
         }
         else

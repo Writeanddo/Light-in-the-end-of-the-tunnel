@@ -120,6 +120,6 @@ public class Looter : MonoBehaviour
     {
         CharacterController2D cc = GetComponent<CharacterController2D>();
         if (cc != null)
-            helpText.SetActive(cc.isGrounded());
+            helpText.SetActive(cc.IsGrounded());
     }
 }

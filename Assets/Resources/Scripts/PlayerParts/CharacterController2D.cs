@@ -19,6 +19,7 @@ public class CharacterController2D : MonoBehaviour
 	private Vector3 m_Velocity = Vector3.zero;
 
 	[Header("Animation")]
+	[SerializeField] private Animator animator;
 	[SerializeField] private Transform m_Skin_Flip;				// Player skin
 	[SerializeField] private Transform m_Skin_Tilt;             // Player skin
 	[SerializeField] private float tiltAngleRun;
@@ -113,6 +114,11 @@ public class CharacterController2D : MonoBehaviour
 		{
 			Tilt(m_Rigidbody2D.velocity, m_Grounded);
 		}
+
+		if (animator != null)
+        {
+			animator.SetBool("isMoving", (Mathf.Abs(m_Rigidbody2D.velocity.x) > 0.1 ));
+		}
 	}
 
 
@@ -136,5 +142,11 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public bool isGrounded() => m_Grounded;
+	public void EndAnimation()
+	{
+		if (animator != null)
+			animator.SetTrigger("End");
+	}
+
+	public bool IsGrounded() => m_Grounded;
 }

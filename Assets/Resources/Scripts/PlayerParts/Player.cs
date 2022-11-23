@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
 
     void UseAction()
     {
-        if (_charController.isGrounded())
+        if (_charController.IsGrounded())
         {
             if (_looter.isAtSwitch)
             {
@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
     public void LoadNextLevel()
     {
         AudioManager.GetInstance().PlayClip("switch");
+        _charController.EndAnimation();
         RemovePlayerBody();
         LevelManager lm = LevelManager.GetInstance();
         GameObject canvas = GameObject.FindGameObjectWithTag("UI");
