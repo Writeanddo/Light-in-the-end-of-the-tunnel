@@ -309,6 +309,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 341240047}
     m_Modifications:
+    - target: {fileID: 3587938621122884009, guid: 8e208a5e29d1dfd48bb47e339f995972, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3587938621411245540, guid: 8e208a5e29d1dfd48bb47e339f995972, type: 3}
       propertyPath: connectedPoints.Array.size
       value: 0
@@ -1098,7 +1102,7 @@ GameObject:
   - component: {fileID: 1818205046}
   m_Layer: 10
   m_Name: Foreground
-  m_TagString: Untagged
+  m_TagString: Foreground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1382,9 +1386,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 341240047}
     m_Modifications:
-    - target: {fileID: 3587938621411245540, guid: 8e208a5e29d1dfd48bb47e339f995972, type: 3}
-      propertyPath: connectedPoints.Array.size
-      value: 0
+    - target: {fileID: 3587938621122884009, guid: 8e208a5e29d1dfd48bb47e339f995972, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3587938621411245540, guid: 8e208a5e29d1dfd48bb47e339f995972, type: 3}
       propertyPath: connectedPoints.Array.data[0]

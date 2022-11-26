@@ -7,6 +7,8 @@ public class DropPoint : MonoBehaviour
 {
     [ShowInInspector]
     public LightController currentLight;
+    [ShowInInspector]
+    public Collider2D dropCollider;
     [SerializeField]
     DropPoint[] connectedPoints;
     [ShowInInspector]
@@ -23,12 +25,17 @@ public class DropPoint : MonoBehaviour
         {
             lr.SetPosition(i+1, connectedPoints[i].transform.position);
         }
+        
+        if(dropCollider == null)
+        {
+            Debug.Log("ERROR: No drop collider set.");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        dropCollider.enabled = (currentLight == null);
     }
 
     public void SyncDP()

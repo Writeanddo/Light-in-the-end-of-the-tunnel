@@ -73,6 +73,7 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
+                ac.source.volume = ac.volume;
                 ac.source.Play();
             }
             if (fading)
@@ -100,6 +101,7 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
+                ac.source.volume = ac.volume;
                 ac.source.pitch = UnityEngine.Random.Range(randomPitchStart, randomPitchEnd);
                 ac.source.Play();
             }

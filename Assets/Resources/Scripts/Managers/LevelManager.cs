@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Sirenix.OdinInspector;
 
 public class LevelManager : MonoBehaviour
 {
@@ -17,6 +18,15 @@ public class LevelManager : MonoBehaviour
     SpriteRenderer fade;
     [SerializeField]
     SpriteRenderer finalFade;
+
+    [Header("Timers")]
+    [ShowInInspector, ReadOnly]
+    private bool isTiming;
+    [SerializeField]
+    private float levelTimer;
+    [ShowInInspector, ReadOnly]
+    private float inGameTimer;
+    private float hintThreshold = 18f;
 
     public static LevelManager GetInstance()
     {
@@ -38,7 +48,23 @@ public class LevelManager : MonoBehaviour
         fade.color = Vector4.zero;
         finalFade.color = Vector4.zero;
 
+        isTiming = false;
+        levelTimer = 0f;
+        inGameTimer = 0f;
+
         StartCoroutine(LevelLoadingInitial(1));
+    }
+
+    private void Update()
+    {
+        if (isTiming)
+        {
+            levelTimer += Time.deltaTime;
+            if (levelTimer > hintThreshold)
+            {
+                HintManager.GetInstance().ShowHintHelpText(true);
+            }
+        }
     }
 
     IEnumerator LevelLoadingInitial(int loadIdx)
@@ -82,6 +108,7 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator LevelLoading(int loadIdx, int unloadIdx, bool finalFadeFlg=false)
     {
+        StopTimerLoop();
         if (finalFadeFlg)
         {
             yield return new WaitForSeconds(3f);
@@ -124,6 +151,8 @@ public class LevelManager : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
         if (Player.GetInstance() != null)
             Player.GetInstance().GetPlayerBody();
+
+        StartTimerLoop();
     }
 
     public bool hasNextLevel()
@@ -135,6 +164,26 @@ public class LevelManager : MonoBehaviour
     {
         LoadLevel(-1, true);
         isFinished = true;
-        Debug.Log("FIN!");
+        Debug.Log("FIN! Game Time: " + inGameTimer);
+    }
+
+    private void StartTimerLoop()
+    {
+        if(curLevel == 0)
+        {
+            inGameTimer = 0f;
+        }
+        levelTimer = 0f;
+        isTiming = true;
+    }
+
+    private void StopTimerLoop()
+    {
+        HintManager.GetInstance().ShowHintHelpText(false);
+        isTiming = false;
+        if(curLevel >= 0)
+        {
+            inGameTimer += levelTimer;
+        }
     }
 }

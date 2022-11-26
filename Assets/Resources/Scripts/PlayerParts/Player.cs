@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
 
         _controls.Controls.Use.performed += ctx => UseAction();
 
+        _controls.Controls.Hint.performed += ctx => HintAction();
+
         _controls.Controls.Look.performed += ctx => LookAt(ctx.ReadValue<Vector2>());
 
         if(_charController == null)
@@ -112,6 +114,11 @@ public class Player : MonoBehaviour
                 _looter.LootOrDrop();
             }
         }
+    }
+
+    void HintAction()
+    {
+        HintManager.GetInstance().SwitchHint(LevelManager.GetInstance().curLevel + 1);
     }
 
     void LookAt(Vector2 poi)

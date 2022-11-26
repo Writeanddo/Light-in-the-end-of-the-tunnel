@@ -64,9 +64,9 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Move(float move, bool jump)
 	{
-		if(m_Rigidbody2D.velocity.x != 0f && m_Grounded)
+		if(Mathf.Abs(m_Rigidbody2D.velocity.x) > 0.1f && m_Grounded)
         {
-			AudioManager.GetInstance().PlayClip("step");
+			AudioManager.GetInstance().PlayClip("step", 0.7f, 1f);
 		}
         else
         {
@@ -117,7 +117,7 @@ public class CharacterController2D : MonoBehaviour
 
 		if (animator != null)
         {
-			animator.SetBool("isMoving", (Mathf.Abs(m_Rigidbody2D.velocity.x) > 0.1 ));
+			animator.SetBool("isMoving", (Mathf.Abs(m_Rigidbody2D.velocity.x) > 0.1));
 		}
 	}
 

@@ -11,15 +11,22 @@ public class LightController : MonoBehaviour
     private bool wasOn;
     public float fadeTime = 1f;
 
-    Collider2D lightCollider;
+    private Collider2D lightCollider;
     private UnityEngine.Rendering.Universal.Light2D lightSource;
+    private SpriteRenderer sr;
 
     public void Start()
     {
         lightCollider = GetComponent<Collider2D>();
         lightSource = GetComponent<UnityEngine.Rendering.Universal.Light2D>();
+        sr = GetComponent<SpriteRenderer>();
+
         lightSource.intensity = startsOn ? 1 : 0;
         lightCollider.enabled = startsOn;
+        if (sr != null)
+        {
+            sr.color = startsOn ? Color.white : Color.grey;
+        }
     }
 
     public void Update()
@@ -36,17 +43,20 @@ public class LightController : MonoBehaviour
     {
         float minLuminosity = 0;
         float maxLuminosity = 1;
-
+        
+        Color color;
         float a, b;
         if (fadeIn)
         {
             a = minLuminosity;
             b = maxLuminosity;
+            color = Color.white;
         }
         else
         {
             a = maxLuminosity;
             b = minLuminosity;
+            color = Color.grey;
         }
 
         float currentIntensity = lightSource.intensity;
@@ -57,6 +67,11 @@ public class LightController : MonoBehaviour
             lightSource.intensity = Mathf.Lerp(a, b, timer / fadeTime);
             lightCollider.enabled = lightSource.intensity > maxLuminosity / 2;
             yield return null;
+        }
+
+        if (sr != null)
+        {
+            sr.color = color;
         }
     }
 
@@ -77,5 +92,10 @@ public class LightController : MonoBehaviour
         }
         AudioManager.GetInstance().PlayClip("lights_out");
         lightSource.intensity = 0;
+        if (sr != null)
+        {
+            sr.color = Color.grey;
+        }
+
     }
 }

@@ -11,6 +11,7 @@ TagManager:
   - Switch
   - Trigger
   - UI
+  - Foreground
   layers:
   - Default
   - TransparentFX

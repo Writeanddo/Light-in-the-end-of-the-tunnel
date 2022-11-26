@@ -1119,7 +1119,6 @@ MonoBehaviour:
   credit: {fileID: 1681010121}
   endingLight: {fileID: 2105674934}
   endingText: {fileID: 912971202}
-  isCreditOn: 0
 --- !u!1 &912971202
 GameObject:
   m_ObjectHideFlags: 0
@@ -2935,6 +2934,10 @@ PrefabInstance:
     - target: {fileID: 4714995998785043294, guid: 23fdd01bae2f07a41a111cfee8ec4d34, type: 3}
       propertyPath: m_Name
       value: TorchEnding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714995998785043294, guid: 23fdd01bae2f07a41a111cfee8ec4d34, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5402320460530743407, guid: 23fdd01bae2f07a41a111cfee8ec4d34, type: 3}
       propertyPath: m_Radius

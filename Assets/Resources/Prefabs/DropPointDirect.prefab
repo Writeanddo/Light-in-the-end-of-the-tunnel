@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLight: {fileID: 7614220395640385131}
-  connectedPoints:
-  - {fileID: 0}
+  dropCollider: {fileID: 3587938622080402116}
+  connectedPoints: []
 --- !u!120 &6977606990894646194
 LineRenderer:
   m_ObjectHideFlags: 0

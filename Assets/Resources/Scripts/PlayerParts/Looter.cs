@@ -56,7 +56,6 @@ public class Looter : MonoBehaviour
                 AudioManager.GetInstance().PlayClip("drop");
                 Quaternion lootRotation = lootedLight.rotation;
                 lootedLight.SetParent(interactableTrigger.parent);
-                // lootedLight.SetLocalPositionAndRotation(Vector3.zero, lootRotation);
                 lootedLight.SetPositionAndRotation(interactableTrigger.parent.position, lootRotation);
 
                 DropPoint dp = interactableTrigger.parent.GetComponent<DropPoint>();
