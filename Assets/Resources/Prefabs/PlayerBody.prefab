@@ -171,7 +171,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 89211a314f5c6aa4a80bacf4af7d8c76, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -239,6 +239,7 @@ MonoBehaviour:
     m_Bits: 2176
   m_GroundCheck: {fileID: 1668111469}
   m_CeilingCheck: {fileID: 85910970175119607}
+  animator: {fileID: 0}
   m_Skin_Flip: {fileID: 0}
   m_Skin_Tilt: {fileID: 843804155404537910}
   tiltAngleRun: 15

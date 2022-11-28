@@ -464,7 +464,7 @@ MonoBehaviour:
   audioClips:
   - clip: {fileID: 8300000, guid: d4dadbcc808df79449b496995a84f4c3, type: 3}
     name: grim
-    volume: 1
+    volume: 0.7
     pitch: 1
     loop: 1
     playOnAwake: 1
@@ -500,7 +500,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: c5c5c90aef2116a4381ad32c59ab986d, type: 3}
     name: step
-    volume: 0.055
+    volume: 0.175
     pitch: 1
     loop: 1
     playOnAwake: 0
